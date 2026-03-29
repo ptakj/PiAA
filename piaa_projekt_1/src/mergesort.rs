@@ -1,6 +1,6 @@
 use piaa_projekt_1::*;
 
-pub fn merge_parts(first_part: &[i32], second_part: &[i32]) -> Vec<i32> {
+pub fn merge_parts<T: std::cmp::PartialOrd + Clone>(first_part: &[T], second_part: &[T]) -> Vec<T> {
     let combined_lenght: i32 = (first_part.len() + second_part.len()).try_into().unwrap();
     let mut ans = vec![0; combined_lenght as usize];
     let mut first_marker = 0;

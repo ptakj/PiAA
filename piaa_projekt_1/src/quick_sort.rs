@@ -1,10 +1,10 @@
 use piaa_projekt_1::*;
 
 
-fn median_of_3(slice: &[i32], a: usize, b: usize, c: usize) -> usize {
-    let va = slice[a];
-    let vb = slice[b];
-    let vc = slice[c];
+fn median_of_3<T: std::cmp::PartialOrd>(slice: &[T], a: usize, b: usize, c: usize) -> usize {
+    let va = &slice[a];
+    let vb = &slice[b];
+    let vc = &slice[c];
 
     if va < vb {
         if vb < vc { b } else if va < vc { c } else { a }
@@ -13,7 +13,7 @@ fn median_of_3(slice: &[i32], a: usize, b: usize, c: usize) -> usize {
     }
 }
 
-fn get_ninther_index(slice: &[i32]) -> usize {
+fn get_ninther_index<T: std::cmp::PartialOrd>(slice: &[T]) -> usize {
     let n = slice.len();
     if n < 9 {
         return n / 2;
@@ -29,17 +29,17 @@ fn get_ninther_index(slice: &[i32]) -> usize {
     median_of_3(slice, m1, m2, m3)
 }
 
-pub fn my_quick_sort(data_to_sort: &mut[i32]) {
+pub fn my_quick_sort<T: std::cmp::PartialOrd + Clone>(data_to_sort: &mut[T]) {
     if data_to_sort.len() > 1{
     let mut left = 0;
     let dtslen = data_to_sort.len();
 
     let mut pivot = get_ninther_index(data_to_sort);
-    let pivot_val = data_to_sort[pivot];
+    let pivot_val = data_to_sort[pivot].clone();
     data_to_sort.swap(data_to_sort.len()-1, pivot);
     
     for i in 0..data_to_sort.len(){
-        if data_to_sort[i]<pivot_val{
+        if data_to_sort[i]< pivot_val{
             data_to_sort.swap(left,i);
             left += 1;
         }
