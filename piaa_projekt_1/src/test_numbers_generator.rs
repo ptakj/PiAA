@@ -5,7 +5,7 @@ pub fn generate_test_table(
     percentile_of_sorted_at_front: i32,
     max_number: i32,
     reversed: bool,
-)-> Vec<i32>{
+) -> Vec<i32> {
     let mut rng = rand::rng();
     let mut generated_test_table = (0..number_of_elements).fold(Vec::new(), |mut gtt, _| {
         gtt.push(rng.random_range(0..max_number));

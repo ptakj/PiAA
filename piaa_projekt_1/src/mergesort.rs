@@ -2,9 +2,12 @@ use std::ptr::null;
 
 use piaa_projekt_1::*;
 
-pub fn merge_parts<T: std::cmp::PartialOrd + Clone + Default + Copy>(first_part: &[T], second_part: &[T]) -> Vec<T> {
+pub fn merge_parts<T: std::cmp::PartialOrd + Clone + Default + Copy>(
+    first_part: &[T],
+    second_part: &[T],
+) -> Vec<T> {
     let combined_lenght: i32 = (first_part.len() + second_part.len()).try_into().unwrap();
-    let mut ans:Vec<T> = vec![T::default();combined_lenght as usize];
+    let mut ans: Vec<T> = vec![T::default(); combined_lenght as usize];
     let mut first_marker = 0;
     let mut second_marker = 0;
     let mut ans_marker = 0;
@@ -31,7 +34,9 @@ pub fn merge_parts<T: std::cmp::PartialOrd + Clone + Default + Copy>(first_part:
 
     ans
 }
-pub fn my_merge_sort<T: std::cmp::PartialOrd + Clone + Default + Copy>(data_to_sort: &[T]) -> Vec<T> {
+pub fn my_merge_sort<T: std::cmp::PartialOrd + Clone + Default + Copy>(
+    data_to_sort: &[T],
+) -> Vec<T> {
     if data_to_sort.len() == 1 {
         data_to_sort.to_vec()
     } else {
