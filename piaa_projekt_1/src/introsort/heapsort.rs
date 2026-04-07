@@ -62,8 +62,6 @@ pub fn sink_down<T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: 
                 sink_down(to_max_heap, r);
             }
         }
-
-        
     }
     else {
         let mut mx  = to_max_heap[current];
@@ -75,6 +73,7 @@ pub fn sink_down<T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: 
 
 pub fn my_heap_sort <T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: &mut [T])
 {
+
     let mut placeholder: usize = to_max_heap.len()-1;
     for i in (0..ln).rev() {
         heapify(to_max_heap, last_parent(to_max_heap) as usize);
@@ -82,3 +81,5 @@ pub fn my_heap_sort <T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_he
         placeholder = placeholder -1;
     } 
 }
+
+
