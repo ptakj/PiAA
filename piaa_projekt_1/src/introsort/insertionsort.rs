@@ -1,3 +1,6 @@
+pub fn partition<T: std::cmp::PartialOrd + Clone + Default + Copy>(){
+
+}
 
 pub fn my_insertion_sort <T: std::cmp::PartialOrd + Clone + Default + Copy>(data_to_sort: &mut [T]){
    let ln = data_to_sort.len(); 
