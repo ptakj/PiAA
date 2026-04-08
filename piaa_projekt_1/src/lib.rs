@@ -6,7 +6,6 @@ pub fn split_parts<T>(to_split: &[T]) -> (&[T], &[T]) {
     (left, right)
 }
 
-
 pub fn median_of_3<T: std::cmp::PartialOrd>(slice: &[T], a: usize, b: usize, c: usize) -> usize {
     let va = &slice[a];
     let vb = &slice[b];

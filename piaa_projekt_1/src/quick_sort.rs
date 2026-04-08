@@ -1,7 +1,5 @@
 use piaa_projekt_1::*;
 
-
-
 pub fn my_quick_sort<T: std::cmp::PartialOrd + Clone>(data_to_sort: &mut [T]) {
     if data_to_sort.len() > 1 {
         let mut left = 0;

@@ -3,7 +3,10 @@ pub fn left_and_right_child_index (i: usize) -> (usize, usize)
     (2*i+1, 2*i+2)
 }
 
-pub fn last_parent<T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: &mut [T]) -> i32 {
+pub fn last_parent<T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: &mut [T]) -> usize {
+    if to_max_heap.len() == 1{
+        return 0;
+    } 
     (to_max_heap.len()-2)/2
 }
 
@@ -73,11 +76,12 @@ pub fn sink_down<T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: 
 
 pub fn my_heap_sort <T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: &mut [T])
 {
-
+    let ln = to_max_heap.len();
     let mut placeholder: usize = to_max_heap.len()-1;
     for i in (0..ln).rev() {
-        heapify(to_max_heap, last_parent(to_max_heap) as usize);
-        to_max_heap(0, i);
+        let lp = last_parent(to_max_heap);
+        heapify(to_max_heap, lp);
+        to_max_heap.swap(0, i);
         placeholder = placeholder -1;
     } 
 }
