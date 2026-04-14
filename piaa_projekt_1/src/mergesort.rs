@@ -37,7 +37,7 @@ pub fn merge_parts<T: std::cmp::PartialOrd + Clone + Default + Copy>(
 pub fn my_merge_sort<T: std::cmp::PartialOrd + Clone + Default + Copy>(
     data_to_sort: &[T],
 ) -> Vec<T> {
-    if data_to_sort.len() == 1 {
+    if data_to_sort.len() <= 1 {
         data_to_sort.to_vec()
     } else {
         let (left_part, right_part) = split_parts(&data_to_sort);

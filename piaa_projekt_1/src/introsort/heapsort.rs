@@ -17,73 +17,58 @@ pub fn maxx <T: std::cmp::PartialOrd + Clone + Default + Copy>(a: T, b: T, c: T)
 }
 
 
-pub fn heapify <T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: &mut [T], current: usize)
-{
-
-    let (l, r): (usize, usize) = left_and_right_child_index(current);    
-    if r < to_max_heap.len(){
-        let mut mx  = maxx(to_max_heap[l], to_max_heap[r], to_max_heap[current]);
-        if   mx == to_max_heap[l] {
-            to_max_heap.swap(current,l);
-            sink_down(to_max_heap,l);
-        }
-        else
-        {
-            if mx == to_max_heap[r] {
-                to_max_heap.swap(current, r);
-                sink_down(to_max_heap,r);
-            }
-        }
-    }
-    else {
-        let mut mx  = to_max_heap[current];
-        if mx < to_max_heap[l]{
-            to_max_heap.swap(l,current);
-        }
-    }
-    if current > 0 {
-    heapify(to_max_heap, current-1)
-    }
-}
-
-pub fn sink_down<T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: &mut [T], current: usize){
-    if current >= to_max_heap.len(){
-        return
-    }
-
-    let (l, r): (usize, usize) = left_and_right_child_index(current);    
-    if r < to_max_heap.len(){
-        let mut mx  = maxx(to_max_heap[l], to_max_heap[r], to_max_heap[current]);
-        if   mx == to_max_heap[l] {
-            to_max_heap.swap(current,l);
-            sink_down(to_max_heap, l);            
-        }
-        else
-        {
-            if mx == to_max_heap[r] {
-                to_max_heap.swap(current, r);
-                sink_down(to_max_heap, r);
-            }
-        }
-    }
-    else {
-        let mut mx  = to_max_heap[current];
-        if mx < to_max_heap[l]{
-            to_max_heap.swap(l,current);
-        }
-    }
-}
-
-pub fn my_heap_sort <T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: &mut [T])
-{
+pub fn heapify<T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: &mut [T], current: usize) {
     let ln = to_max_heap.len();
-    let mut placeholder: usize = to_max_heap.len()-1;
-    for i in (0..ln).rev() {
-        let lp = last_parent(to_max_heap);
-        heapify(to_max_heap, lp);
-        to_max_heap.swap(0, i);
-        placeholder = placeholder -1;
-    } 
+    let (l, r) = left_and_right_child_index(current);
+
+    if r < ln {
+        let mx = maxx(to_max_heap[l], to_max_heap[r], to_max_heap[current]);
+        if mx == to_max_heap[l] {
+            to_max_heap.swap(current, l);
+            sink_down(to_max_heap, l);
+        } else if mx == to_max_heap[r] {
+            to_max_heap.swap(current, r);
+            sink_down(to_max_heap, r);
+        }
+    } else if l < ln {
+        if to_max_heap[l] > to_max_heap[current] {
+            to_max_heap.swap(l, current);
+            sink_down(to_max_heap, l);
+        }
+    }
 }
 
+pub fn sink_down<T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: &mut [T], current: usize) {
+    let ln = to_max_heap.len();
+    let (l, r) = (2 * current + 1, 2 * current + 2);
+    let mut largest = current;
 
+    if l < ln && to_max_heap[l] > to_max_heap[largest] {
+        largest = l;
+    }
+
+    if r < ln && to_max_heap[r] > to_max_heap[largest] {
+        largest = r;
+    }
+
+    if largest != current {
+        to_max_heap.swap(current, largest);
+        sink_down(to_max_heap, largest);
+    }
+}
+pub fn my_heap_sort<T: std::cmp::PartialOrd + Clone + Default + Copy>(to_max_heap: &mut [T]) {
+    let ln = to_max_heap.len();
+    if ln < 2 {
+        return;
+    }
+
+
+    for i in (0..=ln / 2).rev() {
+        heapify(to_max_heap, i);
+    }
+
+    for i in (1..ln).rev() {
+        to_max_heap.swap(0, i);
+        heapify(&mut to_max_heap[..i], 0);
+    }
+}

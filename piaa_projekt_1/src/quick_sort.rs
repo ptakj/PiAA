@@ -15,10 +15,10 @@ pub fn my_quick_sort<T: std::cmp::PartialOrd + Clone>(data_to_sort: &mut [T]) {
                 left += 1;
             }
         }
-        data_to_sort.swap(pivot, left);
+        data_to_sort.swap(left, dtslen - 1);
 
-        my_quick_sort(data_to_sort[0..pivot].as_mut());
+        my_quick_sort(data_to_sort[0..left].as_mut());
 
-        my_quick_sort(data_to_sort[pivot..dtslen].as_mut());
+        my_quick_sort(data_to_sort[left + 1..dtslen].as_mut());
     }
 }
