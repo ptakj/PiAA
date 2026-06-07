@@ -1,7 +1,5 @@
 package com.game;
 
-import javafx.scene.paint.Paint;
-
 import javafx.application.Application;
 import javafx.scene.*;
 import javafx.scene.paint.*;
@@ -20,19 +18,23 @@ enum GameMode{
 
 public class Main extends Application {
     public static void main(String[] args) throws Exception {
+            System.err.println("MAIN START");
         launch(args);
     }
 
+
     public void start(Stage stage) throws Exception {
+
+        
         Ui ui = new Ui();
 
-        stage.setTitle("Game Start");
+        stage.setTitle("TEST123");
         stage.setScene(ui.GetScene());
         stage.show();
     }
-
+ 
     public void stop() throws Exception {
-        System.out.println("stopping");
+        System.err.println("stopping");
     }
 }
 
@@ -40,32 +42,34 @@ class Ui {
     Scene scene = null;
     Node gameStartView = null;
     Node gamaplayInterfaceView = null;
-
+    int winCondition = 0;
+    int boardSize = 0;
     GameMode state = GameMode.GAME_START;
 
     public Ui() {
-        this.scene = new Scene(new Group());
-        this.changeScene();
+    this.scene = new Scene(new BorderPane(), 600, 600);
+    this.changeScene();
     }
 
     public Scene GetScene() {
         return this.scene;
     }
 
-    public void changeScene() {
-        ObservableList<Node> rootList = ((Group)scene.getRoot()).getChildren();
+public void changeScene() {
+    BorderPane root = (BorderPane) scene.getRoot();
+    
 
-        switch (state) {
-            case GAME_START:
-                rootList.clear();
-                rootList.addAll(this.getGameStartView());    
-                break;
-            default:
-                rootList.clear();
-                //rootList.addAll(this.getGameOnView());
-                break;
-        }
+if (state == GameMode.GAME_START) {
+    System.err.println("State = " + state);
+    
+        root.setCenter(this.getGameStartView());    
+    } else {
+        System.err.println("State = " + state);
+        this.gamaplayInterfaceView = null;
+        Node gameplay = getGameplayInterfaceView();
+        root.setCenter(gameplay);     
     }
+}
 
     public Node getGameStartView() {
         if (this.gameStartView != null) {
@@ -102,19 +106,31 @@ class Ui {
         });
 
 
+
         Button startButton = new Button("Start game!");
         startButton.setOnAction( e -> {
+                System.err.println("TEST");
             if(boardSizeSlider.getValue() >= winSizeSlider.getValue()){
-                if(checkBx1.isSelected() == false)
+
+                if(checkBx1.isSelected() == false){
+                    System.err.println("PVP");
                     this.state = GameMode.PVP;
-                else
+                } else {
+                    System.err.println("PVE");
                     this.state = GameMode.PVE;
+                }
                 
+  
+            this.boardSize = (int)boardSizeSlider.getValue();
+            this.winCondition = (int)winSizeSlider.getValue();
+
+            System.err.println(this.boardSize);
+            System.err.println(this.winCondition);
+
             this.changeScene();
              
-            }
-            else{
-                System.out.println("Cannot start game with impossible win condition!");
+            }else{
+                System.err.println("Cannot start game with impossible win condition!");
             }
         
         });
@@ -132,13 +148,35 @@ class Ui {
         return this.gameStartView;
     }
 
-   public Node getgameplayInterfaceView(){
+   public Node getGameplayInterfaceView(){
+    System.err.println("DEBUG: Buduję planszę o rozmiarze: " + this.boardSize);
+
      if (this.gamaplayInterfaceView != null) {
             return this.gamaplayInterfaceView;
         }
 
 
-        return this.gamaplayInterfaceView;
+    GridPane grid = new GridPane();
+    grid.setAlignment(Pos.CENTER);
+    grid.setHgap(5);
+    grid.setVgap(5);
+
+    for (int row = 0; row < this.boardSize; row++) {
+        for (int col = 0; col < this.boardSize; col++) {
+            Button btn = new Button(row + "," + col);
+            btn.setPrefSize(60, 60); 
+            
+
+            //final int r = row;
+            //final int c = col;
+            
+            //btn.setOnAction(e -> handleCellClick(r, c, btn));
+            
+            grid.add(btn, col, row); 
+        }
+    }
+    this.gamaplayInterfaceView = grid;
+    return this.gamaplayInterfaceView;
     }
 
 }
